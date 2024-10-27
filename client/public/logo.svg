@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <!-- Background circle -->
+    <circle cx="100" cy="100" r="90" fill="#e63946" />
+
+    <!-- Stylized paper/invoice shape -->
+    <path d="M70 45 L130 45 L130 155 L70 155 Z" fill="white" />
+    <path d="M85 70 L115 70" stroke="#e63946" stroke-width="8" stroke-linecap="round" />
+    <path d="M85 90 L115 90" stroke="#e63946" stroke-width="8" stroke-linecap="round" />
+    <path d="M85 110 L105 110" stroke="#e63946" stroke-width="8" stroke-linecap="round" />
+
+    <!-- Check mark overlay -->
+    <path d="M85 130 L95 140 L115 120"
+          stroke="#ff6b6b"
+          stroke-width="8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none" />
+</svg>

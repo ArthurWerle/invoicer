@@ -1,5 +1,8 @@
 ## Invoicer
 ### easy invoice generator
+![{9E020C55-EEC2-4E6C-871D-B5FE15CF8C42}](https://github.com/user-attachments/assets/5fd040b6-38b2-4be9-bf74-8bd54323a864)
+
+
 - TODO: backend server to store invoices locally
 - TODO: styling xD
 

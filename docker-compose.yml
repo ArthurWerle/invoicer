@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: invoicedb
+      POSTGRES_USER: invoiceuser
+      POSTGRES_PASSWORD: invoicepass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  invoice-app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=invoicedb
+      - DB_USER=invoiceuser
+      - DB_PASSWORD=invoicepass
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SENDER_EMAIL=${SENDER_EMAIL}
+      - PORT=3000
+    volumes:
+      - ./invoices:/app/invoices
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

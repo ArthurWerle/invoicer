@@ -1,51 +1,51 @@
-import AWS from 'aws-sdk';
-import fs from 'fs';
+import AWS from 'aws-sdk'
+import fs from 'fs'
 
 export class EmailService {
-  private ses: AWS.SES;
+  private ses: AWS.SES
 
   constructor() {
     this.ses = new AWS.SES({
-      region: process.env.AWS_REGION || 'us-east-1'
-    });
+      region: process.env.AWS_REGION || 'us-east-1',
+    })
   }
 
   async sendInvoiceEmail(params: {
-    invoiceNumber: string;
-    customerEmail: string;
-    pdfPath: string;
+    invoiceNumber: string
+    receiverEmail: string
+    pdfPath: string
   }): Promise<string> {
-    const { invoiceNumber, customerEmail, pdfPath } = params;
+    const { invoiceNumber, receiverEmail, pdfPath } = params
 
     const emailParams: AWS.SES.SendEmailRequest = {
       Source: process.env.SENDER_EMAIL || 'sender@example.com',
       Destination: {
-        ToAddresses: [customerEmail]
+        ToAddresses: [receiverEmail],
       },
       Message: {
         Subject: {
-          Data: `Invoice ${invoiceNumber}`
+          Data: `Invoice ${invoiceNumber}`,
         },
         Body: {
           Text: {
-            Data: `Please find attached invoice ${invoiceNumber}`
-          }
-        }
+            Data: `Please find attached invoice ${invoiceNumber}`,
+          },
+        },
       },
       Attachments: [
         {
           Filename: `${invoiceNumber}.pdf`,
-          Content: fs.readFileSync(pdfPath)
-        }
-      ]
-    };
+          Content: fs.readFileSync(pdfPath),
+        },
+      ],
+    }
 
     try {
-      const result = await this.ses.sendEmail(emailParams).promise();
-      return result.MessageId || '';
+      const result = await this.ses.sendEmail(emailParams).promise()
+      return result.MessageId || ''
     } catch (error) {
-      console.error('Error sending email:', error);
-      throw error;
+      console.error('Error sending email:', error)
+      throw error
     }
   }
 }

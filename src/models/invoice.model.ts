@@ -1,59 +1,80 @@
-import { 
-  Table, 
-  Column, 
-  Model, 
-  DataType, 
-  PrimaryKey, 
-  AutoIncrement 
-} from 'sequelize-typescript';
-import { InvoiceAttributes } from '../types/invoice.type';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  PrimaryKey,
+  AutoIncrement,
+  ForeignKey,
+  BelongsTo,
+} from 'sequelize-typescript'
+import Reciever from './reciever.model'
+import Sender from './sender.model'
+
+export interface InvoiceAttributes {
+  id?: number
+  invoiceNumber: string
+  senderId: number
+  recieverId: number
+  totalAmount: number
+  filePath?: string
+  sent?: boolean
+}
 
 @Table({
   tableName: 'invoices',
-  timestamps: true
+  timestamps: true,
 })
 class Invoice extends Model<InvoiceAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
-  id!: number;
+  id!: number
 
   @Column({
     type: DataType.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
   })
-  invoiceNumber!: string;
+  invoiceNumber!: string
 
+  @ForeignKey(() => Sender)
   @Column({
-    type: DataType.STRING,
-    allowNull: false
+    type: DataType.INTEGER,
+    allowNull: false,
   })
-  customerName!: string;
+  senderId!: number
 
+  @BelongsTo(() => Sender)
+  sender?: Sender
+
+  @ForeignKey(() => Reciever)
   @Column({
-    type: DataType.STRING,
-    allowNull: false
+    type: DataType.INTEGER,
+    allowNull: false,
   })
-  customerEmail!: string;
+  recieverId!: number
+
+  @BelongsTo(() => Reciever)
+  reciever?: Reciever
 
   @Column({
     type: DataType.DECIMAL(10, 2),
-    allowNull: false
+    allowNull: false,
   })
-  totalAmount!: number;
+  totalAmount!: number
 
   @Column({
     type: DataType.STRING,
-    allowNull: true
+    allowNull: true,
   })
-  filePath?: string;
+  filePath?: string
 
   @Column({
     type: DataType.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
   })
-  sent?: boolean;
+  sent?: boolean
 }
 
-export default Invoice;
+export default Invoice

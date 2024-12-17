@@ -1,24 +1,17 @@
-import app from './app';
-import { initDatabase } from './config/database';
-import dotenv from 'dotenv';
+import generateInvoice from './app'
+import { initDatabase } from './config/database'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
-const PORT = process.env.PORT || 3000;
-
-async function startServer() {
+async function run() {
   try {
-    // Initialize database
-    await initDatabase();
-
-    // Start server
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    await initDatabase()
+    await generateInvoice()
   } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
+    console.error('Failed to run:', error)
+    process.exit(1)
   }
 }
 
-startServer();
+run()

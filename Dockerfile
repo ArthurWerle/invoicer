@@ -3,7 +3,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package*.json tsconfig.json ./
 
 # Install dependencies
 RUN npm ci
@@ -12,10 +12,7 @@ RUN npm ci
 COPY . .
 
 # Build TypeScript
-RUN npm run build
-
-# Expose port
-EXPOSE 3000
+# RUN npm run build
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["node", "--loader", "ts-node/esm", "src/scheduler.ts"]
